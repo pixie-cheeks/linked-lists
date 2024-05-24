@@ -13,6 +13,7 @@
     "no-console": "off",
     "prefer-const": "off",
     "disable-autofix/prefer-const": "warn",
-    "lines-between-class-members": "off"
+    "lines-between-class-members": "off",
+    "import/extensions": "off"
   }
 }

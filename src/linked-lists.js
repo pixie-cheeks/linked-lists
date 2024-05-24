@@ -1,4 +1,4 @@
-import Node from './nodes';
+import Node from './nodes.js';
 
 class LinkedList {
   #head = null;
@@ -43,10 +43,12 @@ class LinkedList {
   }
 
   at(index) {
+    if (index < 0) return null;
+
     let currentNode = this.#head;
 
-    for (let i = 0; i <= index; i += 1) {
-      if (!currentNode) throw new Error('No node at given index');
+    for (let i = 0; i < index; i += 1) {
+      if (!currentNode) return null;
       currentNode = currentNode.nextNode;
     }
 
@@ -54,7 +56,7 @@ class LinkedList {
   }
 
   pop() {
-    if (!this.#head) throw new Error('List is empty');
+    if (!this.#head) return;
 
     if (!this.#head.nextNode) {
       this.#head = null;
@@ -94,16 +96,34 @@ class LinkedList {
     return null;
   }
 
+  insertAt(value, index) {
+    const nodeBeforeInsertion = this.at(index - 1);
+
+    nodeBeforeInsertion.nextNode = new Node(
+      value,
+      nodeBeforeInsertion.nextNode,
+    );
+  }
+
+  removeAt(index) {
+    const nodeBeforeRemoval = this.at(index - 1);
+    if (!(nodeBeforeRemoval && nodeBeforeRemoval.nextNode))
+      throw new Error('No node at index');
+    const nodeAfterRemoval = nodeBeforeRemoval.nextNode.nextNode;
+
+    nodeBeforeRemoval.nextNode = nodeAfterRemoval;
+  }
+
   toString() {
     let currentNode = this.#head;
     let string = '';
 
     while (currentNode) {
-      string += currentNode.value;
+      string += `( ${currentNode.value} ) -> `;
       currentNode = currentNode.nextNode;
     }
 
-    string += 'null';
+    string += null;
 
     return string;
   }
